@@ -2,24 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <nav role="navigation" th:fragment="copy">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″>
     <div class="bg-dark">
-        <div class="container">
-            <div class="row pt-0 pb-0">
-                <div class="navbar col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                    <nav class="navbar-nav navbar-expand navbar-dark">
-                        <ul class="navbar-nav align-bottom">
-                            <li class="nav-item"><a class="nav-item nav-link" th:href="@{/home}">Home</a></li>
-                            <li class="nav-item"><a class="nav-item nav-link" th:href="@{/glossary}">Glossary</a></li>
-                            <li class="nav-item"><a class="nav-item nav-link" th:href="@{/contact}">Contact</a></li>
-                            <li class="nav-item"><a class="nav-item nav-link" th:href="@{/faq}">Help</a></li>
-                            <li class="nav-item"><a class="nav-item nav-link" th:href="@{/feedback}">Feedback</a></li>
-                        </ul>
-                    </nav>
+        <div class ="container navbar-dark">
+            <nav class="navbar navbar-expand-lg">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav align-bottom">
+                        <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/glossary}">Glossary</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/faq}">Help</a></li>
+                        <li class="nav-item"><a class="nav-link" th:href="@{/feedback}">Feedback</a></li>
+                    </ul>
                 </div>
-            </div>
+            </nav>
         </div>
     </div>
-
     <!-- UH System top nav bar end-->
     <div class="bg-white pt-4 pb-4">
         <div class="container">

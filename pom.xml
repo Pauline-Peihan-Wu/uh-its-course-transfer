@@ -17,7 +17,7 @@
     </parent>
 
     <prerequisites>
-        <maven>3.2.1</maven>
+        <maven>3.5.2</maven>
     </prerequisites>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,26 +28,31 @@
         <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
         <maven-surefire-plugin.version>2.13</maven-surefire-plugin.version>
         <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
-        <maven.version>3.2.1</maven.version>
+        <maven.version>3.5.2</maven.version>
 
         <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
 
         <org.aspectj-version>1.6.9</org.aspectj-version>
         <org.slf4j-version>1.7.16</org.slf4j-version>
-        <commons-collections-version>3.2.1</commons-collections-version>
+        <commons-collections-version>3.2.2</commons-collections-version>
         <commons-dbcp-version>2.1.1</commons-dbcp-version>
         <tiles.version>3.0.5</tiles.version>
         <hibernate.version>5.2.3.Final</hibernate.version>
         <cas.client-version>3.4.1</cas.client-version>
-        <jquery-version>3.2.0</jquery-version>
-        <angularjs-version>1.7.8</angularjs-version>
+        <jquery-version>3.4.1</jquery-version>
+        <angularjs-version>1.7.9</angularjs-version>
         <angular-mocks-version>1.7.5</angular-mocks-version>
+        <bootstrap-version>4.4.1</bootstrap-version>
         <thymeleaf.extras-version>3.0.4.RELEASE</thymeleaf.extras-version>
 
         <javax.servlet.version>3.0.1</javax.servlet.version>
         <javax.servlet.jsp.version>2.2.1</javax.servlet.jsp.version>
         <javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
+
+        <spotbugs-maven-plugin.version>4.0.0</spotbugs-maven-plugin.version>
+        <pmd.plugin.version>3.11.0</pmd.plugin.version>
+        <pmdVersion>6.12.0</pmdVersion>
     </properties>
     <dependencies>
         <dependency>
@@ -97,7 +102,7 @@
         </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
             <version>${thymeleaf.extras-version}</version>
         </dependency>
 
@@ -187,7 +192,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>4.3.1</version>
+            <version>${bootstrap-version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -205,9 +210,9 @@
             <version>${angularjs-version}</version>
         </dependency>
         <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>angular-ui-bootstrap</artifactId>
-            <version>2.2.0</version>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>github-com-Morgul-ui-bootstrap4</artifactId>
+            <version>3.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
@@ -287,6 +292,7 @@
                     </profiles>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -314,6 +320,44 @@
                             <BuildTime>${maven.build.timestamp}</BuildTime>
                         </manifestEntries>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.8.0</version>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+
+                    <execution>
+                        <id>install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <nodeVersion>v10.16.3</nodeVersion>
                 </configuration>
             </plugin>
             <plugin>
@@ -429,6 +473,32 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-maven-plugin.version}</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Medium</threshold>
+                    <excludeFilterFile>src/test/resources/spotbugs/findbugs-excludes.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pmd.plugin.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>src/test/resources/pmd/ruleset.xml</ruleset>
+                    </rulesets>
+                    <minimumTokens>110</minimumTokens>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>3.0.0</version>
             </plugin>
         </plugins>
     </build>
